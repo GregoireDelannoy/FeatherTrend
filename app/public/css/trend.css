@@ -1,0 +1,48 @@
+body { font-family: 'DM Sans', sans-serif; }
+
+/* ── Shrinking header ── */
+#appHeader {
+  transition: padding 0.3s ease, box-shadow 0.3s ease;
+}
+#headerTitle {
+  transition: font-size 0.3s ease, line-height 0.3s ease;
+  font-size: clamp(1.6rem, 6vw, 2.4rem);
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+#appHeader.scrolled {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  box-shadow: 0 2px 12px rgba(44,26,14,0.1);
+}
+#appHeader.scrolled #headerTitle { font-size: clamp(1rem, 4vw, 1.25rem); }
+#appHeader.scrolled .feather      { font-size: 1rem; }
+
+.feather { display:inline-block; font-size:1.4rem; transition: font-size 0.3s ease;
+  animation: sway 4s ease-in-out infinite; }
+@keyframes sway { 0%,100%{transform:rotate(-30deg)} 50%{transform:rotate(-18deg)} }
+
+/* ── Photo cards ── */
+.photo-card { transition: transform 0.18s, box-shadow 0.18s; }
+.photo-card:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(44,26,14,0.18); z-index:2; }
+
+/* ── Species row slide-in ── */
+@keyframes slideIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
+.species-row { animation: slideIn 0.2s ease; }
+
+/* ── Dropdown picker ── */
+#speciesDropdown {
+  transform-origin: top;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+#speciesDropdown.hidden { opacity:0; transform:scaleY(0.95); pointer-events:none; }
+#speciesDropdown:not(.hidden) { opacity:1; transform:scaleY(1); }
+
+/* ── Modal ── */
+@keyframes modalIn { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
+.modal-card { animation: modalIn 0.2s ease; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:#B5C9A1; border-radius:2px; }

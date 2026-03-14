@@ -14,10 +14,10 @@
         "symfony/dotenv": "8.0.*",
         "symfony/flex": "^2.10",
         "symfony/framework-bundle": "8.0.*",
+        "symfony/mime": "8.0.*",
         "symfony/runtime": "8.0.*",
+        "symfony/twig-bundle": "8.0.*",
         "symfony/yaml": "8.0.*"
-    },
-    "require-dev": {
     },
     "config": {
         "allow-plugins": {

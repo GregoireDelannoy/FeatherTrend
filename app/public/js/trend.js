@@ -1,14 +1,17 @@
 /* ── Constants ─────────────────────────────────────────────────────────── */
-const PALETTE       = ['#4A5E3A','#C8842A','#7BAFC4','#9B6E9B','#D4705A','#5A9B8A'];
+const PALETTE       = [  
+  "#E63946", "#F77F88", "#FF9F5A", "#FFB84D", "#FFD166",
+  "#F4D35E", "#EAE2B7", "#FCBF49", "#E76F51", "#D4A574",
+  "#A8DADC", "#457B9D", "#1D3557", "#2A9D8F", "#264653",
+  "#52B788", "#74C69D", "#95D5B2", "#52B788", "#B7E4C7",
+  "#6A4C93", "#8E7CC3", "#C77DFF", "#E0AAFF", "#D08CE9",
+  "#F48FB1", "#FF6F9F", "#A23B72", "#7209B7", "#3A0CA3"];
 const MONTHS        = ['January','February','March','April','May','June',
                        'July','August','September','October','November','December'];
-const INITIAL_SHOW  = 3;
-const LOAD_MORE     = 6;
 
 /* ── State ─────────────────────────────────────────────────────────────── */
 let species         = [];        // active species
 let allSpecies      = [];        // all available species from API
-const monthShown    = {};
 
 /* ── API Fetching ──────────────────────────────────────────────────────── */
 async function fetchAllSpecies() {
@@ -90,7 +93,7 @@ async function addSpecies(sp) {
     scientific_name: sp.scientific_name,
     data,
     monthlyData,
-    color: PALETTE[idx % PALETTE.length],
+    color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
   });
   renderAll();
 }
@@ -206,8 +209,19 @@ function buildMonthData() {
         });
       }
     });
-    return { month, photos };
+    // Shuffle photos for random order
+    return { month, photos: shuffleArray(photos) };
   }).filter(m => m.photos.length > 0);
+}
+
+// Fisher-Yates shuffle
+function shuffleArray(arr) {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
 }
 
 function renderGallery() {
@@ -225,10 +239,6 @@ function renderGallery() {
 
   container.innerHTML = '';
   data.forEach(({ month, photos }) => {
-    if (!monthShown[month]) monthShown[month] = INITIAL_SHOW;
-    const shown     = Math.min(monthShown[month], photos.length);
-    const remaining = photos.length - shown;
-
     const group = document.createElement('div');
     group.className = 'mb-5';
 
@@ -239,34 +249,41 @@ function renderGallery() {
       <span class="text-[11px] text-sage">${photos.length} photo${photos.length!==1?'s':''}</span>`;
     group.appendChild(header);
 
-    const grid = document.createElement('div');
-    grid.className = 'grid grid-cols-3 gap-1.5';
-    group.appendChild(grid);
-    photos.slice(0, shown).forEach(p => appendCard(grid, p, month));
-
-    if (remaining > 0) {
-      const btn = document.createElement('button');
-      btn.className = 'mt-2 w-full border border-dashed border-fern rounded-lg py-1.5 text-xs text-sage hover:bg-sage/10 hover:border-sage hover:text-moss transition-all select-none';
-      btn.textContent = `Show ${Math.min(remaining, LOAD_MORE)} more (${remaining} remaining)`;
-      btn.addEventListener('click', () => {
-        monthShown[month] = Math.min(monthShown[month] + LOAD_MORE, photos.length);
-        renderGallery();
-      });
-      group.appendChild(btn);
-    }
-
+    const scrollContainer = document.createElement('div');
+    scrollContainer.className = 'gallery-scroll-container';
+    
+    const scrollTrack = document.createElement('div');
+    scrollTrack.className = 'gallery-scroll-track';
+    
+    photos.forEach(p => {
+      const card = createPhotoCard(p, month);
+      scrollTrack.appendChild(card);
+    });
+    
+    scrollContainer.appendChild(scrollTrack);
+    group.appendChild(scrollContainer);
     container.appendChild(group);
+    
+    // Setup scroll handlers
+    setupScrollHandlers(scrollContainer, scrollTrack);
+    // Initialize lazy loading for visible images
+    initLazyLoading(scrollTrack);
   });
 }
 
-function appendCard(grid, p, month) {
+function createPhotoCard(p, month) {
   const card = document.createElement('div');
-  card.className = 'photo-card relative rounded-lg overflow-hidden cursor-pointer border border-fern/50 bg-cream';
+  card.className = 'photo-card gallery-item relative rounded-lg overflow-hidden cursor-pointer border border-fern/50 bg-cream flex-shrink-0';
+  card.style.width = '160px';
+  card.style.height = '160px';
   card.style.aspectRatio = '1';
 
   const img = document.createElement('img');
-  img.src = `/pictures/${p.pictureId}`;
-  img.className = 'w-full h-full object-cover';
+  img.className = 'w-full h-full object-cover lazy-image';
+  img.dataset.src = `/pictures/${p.pictureId}`;
+  img.alt = p.species;
+  // Set a placeholder before lazy loading
+  img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160"%3E%3Crect fill="%23F5EFE3" width="160" height="160"/%3E%3C/svg%3E';
 
   const badge = document.createElement('div');
   badge.className = 'absolute bottom-1 left-1 text-white text-[9px] font-medium px-1.5 py-0.5 rounded truncate';
@@ -275,9 +292,50 @@ function appendCard(grid, p, month) {
 
   card.appendChild(img);
   card.appendChild(badge);
-  grid.appendChild(card);
 
   card.addEventListener('click', () => openModal(p, month));
+  
+  return card;
+}
+
+// Lazy loading with Intersection Observer
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      const src = img.dataset.src;
+      if (src) {
+        img.src = src;
+        img.classList.add('loaded');
+        imageObserver.unobserve(img);
+      }
+    }
+  });
+}, { rootMargin: '50px' });
+
+function initLazyLoading(container) {
+  container.querySelectorAll('.lazy-image').forEach(img => {
+    imageObserver.observe(img);
+  });
+}
+
+function setupScrollHandlers(scrollContainer, scrollTrack) {
+  // Horizontal scroll with wheel
+  scrollContainer.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const scrollAmount = 200; // pixels per scroll
+    scrollContainer.scrollLeft += (e.deltaY > 0 ? scrollAmount : -scrollAmount);
+  }, { passive: false });
+
+  // Touch scroll support (already native, but ensure smooth behavior)
+  let touchStartX = 0;
+  scrollContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  scrollContainer.addEventListener('touchmove', (e) => {
+    // Native touch scroll works automatically
+  }, { passive: true });
 }
 
 /* ── Modal ─────────────────────────────────────────────────────────────── */
@@ -300,7 +358,6 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); }
 
 /* ── Boot ──────────────────────────────────────────────────────────────── */
 function renderAll() {
-  MONTHS.forEach(m => { monthShown[m] = INITIAL_SHOW; });
   renderSpecies();
   renderChart();
   renderGallery();

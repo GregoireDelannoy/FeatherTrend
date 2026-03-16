@@ -280,7 +280,7 @@ function createPhotoCard(p, month) {
 
   const img = document.createElement('img');
   img.className = 'w-full h-full object-cover lazy-image';
-  img.dataset.src = `/pictures/${p.pictureId}`;
+  img.dataset.src = `/pictures/${p.pictureId}/thumbnail`;
   img.alt = p.species;
   // Set a placeholder before lazy loading
   img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160"%3E%3Crect fill="%23F5EFE3" width="160" height="160"/%3E%3C/svg%3E';

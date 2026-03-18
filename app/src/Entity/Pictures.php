@@ -16,7 +16,7 @@ class Pictures
     #[ORM\Column(nullable: true)]
     private ?\DateTime $datetime = null;
 
-    #[ORM\Column(length: 4095)]
+    #[ORM\Column(length: 8191)]
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'pictures')]
@@ -48,7 +48,7 @@ class Pictures
 
     public function getPath(): ?string
     {
-        return $this->path;
+        return dirname(__DIR__)."/../assets/pictures/".$this->path;
     }
 
     public function setPath(string $path): static

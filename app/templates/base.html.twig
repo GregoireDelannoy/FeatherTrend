@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FeatherTrend</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/app.css">
+{{ include('inline_tailwind_config.html.twig') }}
+{% block stylesheets %}{% endblock %}
+</head>
+<body class="bg-warm min-h-screen text-bark pb-10">
 
-        {% block javascripts %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+<header id="appHeader" class="sticky top-0 z-20 bg-cream border-b-2 border-fern px-4 py-3 flex items-center gap-2">
+  <span id="headerTitle">Feather<span class="text-sage">Trend</span></span>
+  <span class="feather">🪶</span>
+</header>
+
+<main class="max-w-xl mx-auto px-3 pt-4 flex flex-col gap-5">
+    {% block main %}{% endblock %}
+</main>
+
+{% block footer %}{% endblock %}
+</body>
 </html>

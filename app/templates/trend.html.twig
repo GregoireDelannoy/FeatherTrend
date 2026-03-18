@@ -1,62 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FeatherTrend</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
 <link rel="stylesheet" href="/css/trend.css">
+{% endblock %}
 
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        fontFamily: {
-          serif: ['Playfair Display', 'serif'],
-          sans:  ['DM Sans', 'sans-serif'],
-        },
-        colors: {
-          bark:  '#2C1A0E',
-          moss:  '#4A5E3A',
-          sage:  '#7D9B6A',
-          fern:  '#B5C9A1',
-          cream: '#F5EFE3',
-          warm:  '#FBF7F0',
-          amber: '#C8842A',
-        },
-      }
-    }
-  }
-</script>
-</head>
-<body class="bg-warm min-h-screen text-bark pb-10">
-
-<!-- ── HEADER ── -->
-<header id="appHeader" class="sticky top-0 z-20 bg-cream border-b-2 border-fern px-4 py-3 flex items-center gap-2">
-  <span id="headerTitle">Feather<span class="text-sage">Trend</span></span>
-  <span class="feather">🪶</span>
-</header>
-
-<main class="max-w-xl mx-auto px-3 pt-4 flex flex-col gap-5">
-
+{% block main %}
   <!-- ── SPECIES PANEL ── -->
   <section>
     <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Species to compare</p>
     <div class="bg-cream border border-fern rounded-xl p-3 shadow-sm">
 
-      <!-- Selected species (read-only tags) -->
       <div id="speciesList" class="flex flex-col gap-1.5"></div>
 
-      <!-- Add button + dropdown -->
       <div class="relative mt-2" id="pickerWrapper">
         <button id="addSpeciesBtn"
           class="w-full border border-dashed border-fern rounded-lg py-1.5 px-3 text-sm text-sage hover:bg-sage/10 hover:border-sage hover:text-moss transition-all text-left select-none flex items-center gap-1.5">
           <span class="text-base leading-none">＋</span> Add a species…
         </button>
 
-        <!-- Dropdown list -->
         <div id="speciesDropdown"
           class="hidden absolute left-0 right-0 top-full mt-1 bg-cream border border-fern rounded-xl shadow-lg overflow-hidden z-30">
           <ul id="speciesOptions" class="py-1"></ul>
@@ -90,9 +51,9 @@
     <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Photos by month</p>
     <div id="galleryContainer"></div>
   </section>
+{% endblock %}
 
-</main>
-
+{% block footer %}
 <!-- ── MODAL ── -->
 <div id="modal"
   class="fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8"
@@ -114,5 +75,4 @@
 </div>
 
 <script src="/js/trend.js"></script>
-</body>
-</html>
+{% endblock %}

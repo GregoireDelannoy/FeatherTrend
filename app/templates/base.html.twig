@@ -13,9 +13,27 @@
 </head>
 <body class="bg-warm min-h-screen text-bark pb-10">
 
-<header id="appHeader" class="sticky top-0 z-20 bg-cream border-b-2 border-fern px-4 py-3 flex items-center gap-2">
-  <span id="headerTitle">Feather<span class="text-sage">Trend</span></span>
-  <span class="feather">🪶</span>
+<header id="appHeader" class="sticky top-0 z-20 bg-cream border-b-2 border-fern px-4 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-2">
+    <span id="headerTitle">Feather<span class="text-sage">Trend</span></span>
+    <span class="feather">🪶</span>
+  </div>
+  
+  <div class="flex items-center gap-3 text-sm">
+    {% if app.user %}
+      <span class="text-moss">{{ app.user.email }}</span>
+      <a href="{{ path('app_logout') }}" class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
+        Logout
+      </a>
+    {% else %}
+      <a href="{{ path('app_login') }}" class="px-3 py-1.5 border border-sage text-sage rounded-lg hover:bg-sage hover:text-cream transition-colors font-medium">
+        Login
+      </a>
+      <a href="{{ path('app_register') }}" class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
+        Register
+      </a>
+    {% endif %}
+  </div>
 </header>
 
 <main class="max-w-xl mx-auto px-3 pt-4 flex flex-col gap-5">

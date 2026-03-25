@@ -5,6 +5,15 @@
 {% endblock %}
 
 {% block main %}
+  <!-- ── IDENTIFY BUTTON ── -->
+  {% if app.user %}
+    <div class="flex justify-end mb-2">
+      <a href="{{ path('app_identify') }}" class="px-3 py-1.5 text-sm border border-sage text-sage rounded-lg hover:bg-sage/5 transition-colors font-medium">
+        🔍 Identify a bird
+      </a>
+    </div>
+  {% endif %}
+
   <!-- ── SPECIES PANEL ── -->
   <section>
     <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Species to compare</p>

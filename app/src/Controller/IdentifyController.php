@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
@@ -88,6 +89,7 @@ function identifyPicture(string $picturePath)
 class IdentifyController extends AbstractController
 {
     #[Route(path: '/identify', name: 'app_identify')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function identify(Request $request): Response
     {
         $form = $this->createForm(IdentifyPictureFormType::class);

@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TrendController extends AbstractController
 {
-    #[Route(path: '/', methods: ['GET'])]
+    #[Route(path: '/', methods: ['GET'],  name: 'app_trend')]
     public function index(): Response
     {
         return $this->render('trend.html.twig');

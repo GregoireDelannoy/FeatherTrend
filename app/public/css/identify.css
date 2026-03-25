@@ -1,0 +1,49 @@
+#picture-dropzone {
+    border: 2px dashed #a99d8f !important;
+    background: #fffef8 !important;
+    padding: 2rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.3s !important;
+    min-height: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#picture-dropzone.dz-drag-hover {
+    border-color: #7a9c6d !important;
+    background: rgba(154, 157, 143, 0.1) !important;
+}
+
+#picture-dropzone .dz-message {
+    margin: 0 !important;
+}
+
+#picture-dropzone .dz-preview {
+    background: transparent !important;
+    border: none !important;
+    margin: 0.5rem !important;
+}
+
+#picture-dropzone .dz-progress {
+    visibility: hidden;
+}
+
+#picture-dropzone .dz-image {
+    border-radius: 0.25rem !important;
+    width: 400px;
+    height: 400px;
+}
+
+#picture-dropzone .dz-remove {
+    background: #fee2e2 !important;
+    color: #991b1b !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 0.25rem !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.5rem !important;
+}
+
+#picture-dropzone .dz-remove:hover {
+    background: #fecaca !important;
+}

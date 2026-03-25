@@ -1,0 +1,55 @@
+{% extends "base.html.twig" %}
+
+{% block main %}
+  <div class="w-full">
+    <div class="mb-8">
+      <h1 class="text-2xl font-serif text-moss mb-2">Identification Result</h1>
+    </div>
+
+    <!-- ── UPLOADED IMAGE ── -->
+    <section class="mb-8">
+      <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-2">Image, as fed to the model</p>
+      <div class="bg-cream border border-fern rounded-xl p-3 shadow-sm overflow-hidden">
+        <img src="data:image/png;base64,{{ imageThumbnail }}" alt="Uploaded image" class="w-full rounded-lg max-h-96 object-cover">
+      </div>
+    </section>
+
+    <!-- ── RESULT CARD ── -->
+    <section class="mb-8">
+      <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-2">Identified specie</p>
+      <div class="bg-gradient-to-br from-sage/5 to-moss/5 border border-sage rounded-xl p-6 shadow-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex-1">
+            <h2 class="text-3xl font-serif text-moss mb-1">{{ specie }}</h2>
+          </div>
+          <div class="text-right">
+            <div class="text-4xl font-bold text-sage">{{ (probability * 10)|round(1) }}%</div>
+            <p class="text-[10px] font-medium tracking-widest uppercase text-sage/75">Confidence</p>
+          </div>
+        </div>
+
+        <!-- ── CONFIDENCE BAR ── -->
+        <div class="mt-6">
+          <div class="w-full bg-fern/20 rounded-full h-2 overflow-hidden">
+            <div class="bg-gradient-to-r from-sage to-moss h-full rounded-full transition-all duration-500" 
+                 style="width: {{ (probability * 10)|round(1) }}%"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-sage/60 mt-2">
+            <span>0%</span>
+            <span>100%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ACTION ── -->
+    <div class="flex gap-3">
+      <a href="{{ path('app_identify') }}" class="flex-1 px-4 py-2.5 bg-sage text-cream font-medium rounded-lg hover:bg-moss transition-colors text-center">
+        Identify Another
+      </a>
+      <a href="{{ path('app_trend') }}" class="flex-1 px-4 py-2.5 border border-sage text-sage font-medium rounded-lg hover:bg-sage/5 transition-colors text-center">
+        View Trends
+      </a>
+    </div>
+  </div>
+{% endblock %}

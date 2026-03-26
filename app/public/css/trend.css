@@ -1,22 +1,34 @@
-.photo-card { transition: transform 0.18s, box-shadow 0.18s; }
-.photo-card:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(44,26,14,0.18); z-index:2; }
+.photo-card {
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.photo-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(44, 26, 14, 0.18);
+  z-index: 2;
+}
 
 /* ── Gallery horizontal scroll ── */
 .gallery-scroll-container {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
-  scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch;
+  /* smooth scroll on iOS */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .gallery-scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none;
+  /* Chrome, Safari */
 }
 
 .gallery-scroll-track {
   display: flex;
   gap: 0.375rem;
-  padding: 0.375rem 0; /* prevent shadow cutoff */
+  padding: 0.375rem 0;
+  /* prevent shadow cutoff */
   min-height: min-content;
 }
 
@@ -28,30 +40,77 @@
 .lazy-image {
   transition: opacity 0.3s ease;
 }
+
 .lazy-image.loaded {
   animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* ── Species row slide-in ── */
-@keyframes slideIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:translateY(0)} }
-.species-row { animation: slideIn 0.2s ease; }
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px)
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+.species-row {
+  animation: slideIn 0.2s ease;
+}
 
 /* ── Dropdown picker ── */
 #speciesDropdown {
   transform-origin: top;
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
-#speciesDropdown.hidden { opacity:0; transform:scaleY(0.95); pointer-events:none; }
-#speciesDropdown:not(.hidden) { opacity:1; transform:scaleY(1); }
+
+#speciesDropdown.hidden {
+  opacity: 0;
+  transform: scaleY(0.95);
+  pointer-events: none;
+}
+
+#speciesDropdown:not(.hidden) {
+  opacity: 1;
+  transform: scaleY(1);
+}
 
 /* ── Modal ── */
-@keyframes modalIn { from{opacity:0;transform:scale(0.94)} to{opacity:1;transform:scale(1)} }
-.modal-card { animation: modalIn 0.2s ease; }
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94)
+  }
 
-::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-thumb { background:#B5C9A1; border-radius:2px; }
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
+}
+
+.modal-card {
+  animation: modalIn 0.2s ease;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B5C9A1;
+  border-radius: 2px;
+}

@@ -26,7 +26,7 @@ class IdentifyPictureFormType extends AbstractType
                         maxSize: '40M',
                         extensions: ['jpg', 'jpeg', 'png', 'webp'],
                         extensionsMessage: 'Please upload a valid image document (jpg/png/webp of less than 40MB)',
-                    )
+                    ),
                 ],
             ])
         ;

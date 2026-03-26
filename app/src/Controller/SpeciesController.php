@@ -1,14 +1,13 @@
 <?php
+
 namespace App\Controller;
 
+use App\Entity\Species;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
-
-use App\Entity\Species;
-
 
 class SpeciesController extends AbstractController
 {
@@ -19,12 +18,12 @@ class SpeciesController extends AbstractController
         $species = $entityManager->getRepository(className: Species::class)->findAllWithPictureCount();
 
         // Transform the result into the desired JSON format
-        $result = array_map(function($item) {
+        $result = array_map(function ($item) {
             return [
                 'id' => $item['id'],
                 'scientific_name' => $item['scientific_name'],
                 'common_name' => $item['common_name'],
-                'count' => (int)$item['count']
+                'count' => (int) $item['count'],
             ];
         }, $species);
 

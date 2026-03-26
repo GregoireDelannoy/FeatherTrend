@@ -1,17 +1,17 @@
 /* ── Constants ─────────────────────────────────────────────────────────── */
-const PALETTE       = [  
+const PALETTE = [
   "#E63946", "#F77F88", "#FF9F5A", "#FFB84D", "#FFD166",
   "#F4D35E", "#EAE2B7", "#FCBF49", "#E76F51", "#D4A574",
   "#A8DADC", "#457B9D", "#1D3557", "#2A9D8F", "#264653",
   "#52B788", "#74C69D", "#95D5B2", "#52B788", "#B7E4C7",
   "#6A4C93", "#8E7CC3", "#C77DFF", "#E0AAFF", "#D08CE9",
   "#F48FB1", "#FF6F9F", "#A23B72", "#7209B7", "#3A0CA3"];
-const MONTHS        = ['January','February','March','April','May','June',
-                       'July','August','September','October','November','December'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
 
 /* ── State ─────────────────────────────────────────────────────────────── */
-let species         = [];        // active species
-let allSpecies      = [];        // all available species from API
+let species = [];        // active species
+let allSpecies = [];        // all available species from API
 
 /* ── API Fetching ──────────────────────────────────────────────────────── */
 async function fetchAllSpecies() {
@@ -40,8 +40,8 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ── Species dropdown ──────────────────────────────────────────────────── */
-const dropdown   = document.getElementById('speciesDropdown');
-const addBtn     = document.getElementById('addSpeciesBtn');
+const dropdown = document.getElementById('speciesDropdown');
+const addBtn = document.getElementById('addSpeciesBtn');
 const pickerWrap = document.getElementById('pickerWrapper');
 
 addBtn.addEventListener('click', (e) => {
@@ -86,7 +86,7 @@ async function addSpecies(sp) {
   const idx = species.length;
   const monthlyData = await fetchMonthlyData(sp.id);
   const data = monthlyData.map(m => m.count);
-  
+
   species.push({
     id: sp.id,
     name: sp.common_name,
@@ -137,7 +137,7 @@ function renderChart() {
   chart = new Chart(canvas, {
     type: 'line',
     data: {
-      labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       datasets: species.map(sp => ({
         label: sp.name,
         data: sp.data,
@@ -162,7 +162,7 @@ function renderChart() {
         tooltip: {
           backgroundColor: '#2C1A0E',
           titleFont: { family: 'DM Sans', size: 11 },
-          bodyFont:  { family: 'DM Sans', size: 11 },
+          bodyFont: { family: 'DM Sans', size: 11 },
           padding: 9, cornerRadius: 8,
         }
       },
@@ -199,10 +199,10 @@ function buildMonthData() {
       const monthData = sp.monthlyData[mi];
       if (monthData && monthData.pictures) {
         monthData.pictures.forEach(pic => {
-          photos.push({ 
+          photos.push({
             speciesId: sp.id,
-            species: sp.name, 
-            color: sp.color, 
+            species: sp.name,
+            color: sp.color,
             pictureId: pic.id,
             datetime: pic.datetime
           });
@@ -246,24 +246,24 @@ function renderGallery() {
     header.className = 'flex items-baseline justify-between mb-2 pb-1.5 border-b border-fern';
     header.innerHTML = `
       <span class="font-serif italic text-base text-moss">${month}</span>
-      <span class="text-[11px] text-sage">${photos.length} photo${photos.length!==1?'s':''}</span>`;
+      <span class="text-[11px] text-sage">${photos.length} photo${photos.length !== 1 ? 's' : ''}</span>`;
     group.appendChild(header);
 
     const scrollContainer = document.createElement('div');
     scrollContainer.className = 'gallery-scroll-container';
-    
+
     const scrollTrack = document.createElement('div');
     scrollTrack.className = 'gallery-scroll-track';
-    
+
     photos.forEach(p => {
       const card = createPhotoCard(p, month);
       scrollTrack.appendChild(card);
     });
-    
+
     scrollContainer.appendChild(scrollTrack);
     group.appendChild(scrollContainer);
     container.appendChild(group);
-    
+
     // Setup scroll handlers
     setupScrollHandlers(scrollContainer, scrollTrack);
     // Initialize lazy loading for visible images
@@ -294,7 +294,7 @@ function createPhotoCard(p, month) {
   card.appendChild(badge);
 
   card.addEventListener('click', () => openModal(p, month));
-  
+
   return card;
 }
 
@@ -341,7 +341,7 @@ function setupScrollHandlers(scrollContainer, scrollTrack) {
 /* ── Modal ─────────────────────────────────────────────────────────────── */
 function openModal(p, month) {
   document.getElementById('modalSpecies').textContent = p.species;
-  document.getElementById('modalMonth').textContent   = month;
+  document.getElementById('modalMonth').textContent = month;
   document.getElementById('modalImage').src = `/pictures/${p.pictureId}`;
   const modal = document.getElementById('modal');
   modal.classList.remove('hidden');
@@ -349,12 +349,12 @@ function openModal(p, month) {
   document.body.style.overflow = 'hidden';
 }
 function closeModal() {
-  document.getElementById('modal').classList.replace('flex','hidden');
+  document.getElementById('modal').classList.replace('flex', 'hidden');
   document.body.style.overflow = '';
 }
-document.getElementById('modal').addEventListener('click', e => { if(e.target===document.getElementById('modal')) closeModal(); });
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
 document.getElementById('modalClose').addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 /* ── Boot ──────────────────────────────────────────────────────────────── */
 function renderAll() {

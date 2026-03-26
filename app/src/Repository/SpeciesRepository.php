@@ -16,7 +16,6 @@ class SpeciesRepository extends ServiceEntityRepository
         parent::__construct($registry, Species::class);
     }
 
-
     public function findAllWithPictureCount(): array
     {
         return $this->createQueryBuilder('s')
@@ -31,7 +30,7 @@ class SpeciesRepository extends ServiceEntityRepository
 
     /**
      * Find all pictures for a species grouped by month across all years
-     * Returns array indexed by month (1-12) with count and pictures
+     * Returns array indexed by month (1-12) with count and pictures.
      */
     public function findMonthlyPicturesBySpecies(int $speciesId): array
     {
@@ -47,22 +46,22 @@ class SpeciesRepository extends ServiceEntityRepository
 
         // Initialize 12-month array
         $monthlyData = [];
-        for ($month = 1; $month <= 12; $month++) {
+        for ($month = 1; $month <= 12; ++$month) {
             $monthlyData[$month] = [
                 'count' => 0,
-                'pictures' => []
+                'pictures' => [],
             ];
         }
 
         // Group pictures by month
         foreach ($pictures as $picture) {
             if ($picture['datetime']) {
-                $month = (int)$picture['datetime']->format('m');
+                $month = (int) $picture['datetime']->format('m');
                 $monthlyData[$month]['pictures'][] = [
                     'id' => $picture['id'],
-                    'datetime' => $picture['datetime']->format('c')
+                    'datetime' => $picture['datetime']->format('c'),
                 ];
-                $monthlyData[$month]['count']++;
+                ++$monthlyData[$month]['count'];
             }
         }
 

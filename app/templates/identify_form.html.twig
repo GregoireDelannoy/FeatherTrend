@@ -10,41 +10,45 @@
 {% endblock %}
 
 {% block main %}
-    <div class="w-full">
-        <h1 class="text-2xl font-serif text-moss mb-6">Identify</h1>
+<div class="w-full">
+    <h1 class="text-2xl font-serif text-moss mb-6">Identify</h1>
 
-        {% if form_errors(identifyPictureForm)|length > 0 %}
-            <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4">
-                {{ form_errors(identifyPictureForm) }}
-            </div>
-        {% endif %}
-
-        {{ form_start(identifyPictureForm, {'attr': {'class': 'space-y-4', 'id': 'identify-form', 'enctype': 'multipart/form-data'}}) }}
-            <div>
-                {{ form_label(identifyPictureForm.picture, 'Upload Picture', {'label_attr': {'class': 'block text-sm font-medium text-moss mb-2'}}) }}
-                
-                <div id="picture-dropzone" class="dropzone rounded-lg bg-cream border-0">
-                    <div class="dz-message">
-                        <div class="text-center">
-                            <div class="mb-3">
-                                <svg class="w-12 h-12 text-sage mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                                </svg>
-                            </div>
-                            <p class="text-moss font-medium mb-1">Drag and drop your image here</p>
-                            <p class="text-sage text-sm">or click to select a file</p>
-                            <p class="text-sage text-xs mt-2 opacity-75">Supported formats: JPG, PNG, WebP (max 40MB)</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{ form_widget(identifyPictureForm.picture, {'attr': {'style': 'display: none;'}}) }}
-                {{ form_errors(identifyPictureForm.picture) }}
-            </div>
-
-            <button type="submit" id="submit-btn" class="w-full mt-6 px-4 py-2.5 bg-sage text-cream font-medium rounded-lg hover:bg-moss transition-colors">Identify</button>
-        {{ form_end(identifyPictureForm) }}
+    {% if form_errors(identifyPictureForm)|length > 0 %}
+    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4">
+        {{ form_errors(identifyPictureForm) }}
     </div>
+    {% endif %}
+
+    {{ form_start(identifyPictureForm, {'attr': {'class': 'space-y-4', 'id': 'identify-form', 'enctype':
+    'multipart/form-data'}}) }}
+    <div>
+        {{ form_label(identifyPictureForm.picture, 'Upload Picture', {'label_attr': {'class': 'block text-sm font-medium
+        text-moss mb-2'}}) }}
+
+        <div id="picture-dropzone" class="dropzone rounded-lg bg-cream border-0">
+            <div class="dz-message">
+                <div class="text-center">
+                    <div class="mb-3">
+                        <svg class="w-12 h-12 text-sage mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                            </path>
+                        </svg>
+                    </div>
+                    <p class="text-moss font-medium mb-1">Drag and drop your image here</p>
+                    <p class="text-sage text-sm">or click to select a file</p>
+                    <p class="text-sage text-xs mt-2 opacity-75">Supported formats: JPG, PNG, WebP (max 40MB)</p>
+                </div>
+            </div>
+        </div>
+
+        {{ form_widget(identifyPictureForm.picture, {'attr': {'style': 'display: none;'}}) }}
+        {{ form_errors(identifyPictureForm.picture) }}
+    </div>
+
+    <button type="submit" id="submit-btn"
+        class="w-full mt-6 px-4 py-2.5 bg-sage text-cream font-medium rounded-lg hover:bg-moss transition-colors">Identify</button>
+    {{ form_end(identifyPictureForm) }}
+</div>
 {% endblock %}
 
 {% block footer %}

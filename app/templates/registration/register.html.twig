@@ -1,29 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <div class="w-full">
-        <h1 class="text-2xl font-serif text-moss mb-6">Register</h1>
+<div class="w-full">
+    <h1 class="text-2xl font-serif text-moss mb-6">Register</h1>
 
-        {% if form_errors(registrationForm)|length > 0 %}
-            <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4">
-                {{ form_errors(registrationForm) }}
-            </div>
-        {% endif %}
-
-        {{ form_start(registrationForm, {'attr': {'class': 'space-y-4'}}) }}
-            <div>
-                {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-moss mb-1.5'}}) }}
-                {{ form_widget(registrationForm.email, {'attr': {'class': 'w-full px-3 py-2 border border-fern rounded-lg bg-cream text-bark placeholder-sage focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent'}}) }}
-                {{ form_errors(registrationForm.email) }}
-            </div>
-
-            <div>
-                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium text-moss mb-1.5'}}) }}
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'w-full px-3 py-2 border border-fern rounded-lg bg-cream text-bark placeholder-sage focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent'}}) }}
-                {{ form_errors(registrationForm.plainPassword) }}
-            </div>
-
-            <button type="submit" class="w-full mt-6 px-4 py-2.5 bg-sage text-cream font-medium rounded-lg hover:bg-moss transition-colors">Register</button>
-        {{ form_end(registrationForm) }}
+    {% if form_errors(registrationForm)|length > 0 %}
+    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4">
+        {{ form_errors(registrationForm) }}
     </div>
+    {% endif %}
+
+    {{ form_start(registrationForm, {'attr': {'class': 'space-y-4'}}) }}
+    <div>
+        {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'block text-sm font-medium text-moss
+        mb-1.5'}}) }}
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'w-full px-3 py-2 border border-fern rounded-lg
+        bg-cream text-bark placeholder-sage focus:outline-none focus:ring-2 focus:ring-sage focus:border-transparent'}})
+        }}
+        {{ form_errors(registrationForm.email) }}
+    </div>
+
+    <div>
+        {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'block text-sm font-medium
+        text-moss mb-1.5'}}) }}
+        {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'w-full px-3 py-2 border border-fern
+        rounded-lg bg-cream text-bark placeholder-sage focus:outline-none focus:ring-2 focus:ring-sage
+        focus:border-transparent'}}) }}
+        {{ form_errors(registrationForm.plainPassword) }}
+    </div>
+
+    <button type="submit"
+        class="w-full mt-6 px-4 py-2.5 bg-sage text-cream font-medium rounded-lg hover:bg-moss transition-colors">Register</button>
+    {{ form_end(registrationForm) }}
+</div>
 {% endblock %}

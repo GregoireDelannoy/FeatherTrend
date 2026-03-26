@@ -5,73 +5,73 @@
 {% endblock %}
 
 {% block main %}
-  <!-- ── IDENTIFY BUTTON ── -->
-  {% if app.user %}
-    <div class="flex justify-end mb-2">
-      <a href="{{ path('app_identify') }}" class="px-3 py-1.5 text-sm border border-sage text-sage rounded-lg hover:bg-sage/5 transition-colors font-medium">
-        🔍 Identify a bird
-      </a>
-    </div>
-  {% endif %}
+<!-- ── IDENTIFY BUTTON ── -->
+{% if app.user %}
+<div class="flex justify-end mb-2">
+  <a href="{{ path('app_identify') }}"
+    class="px-3 py-1.5 text-sm border border-sage text-sage rounded-lg hover:bg-sage/5 transition-colors font-medium">
+    🔍 Identify a bird
+  </a>
+</div>
+{% endif %}
 
-  <!-- ── SPECIES PANEL ── -->
-  <section>
-    <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Species to compare</p>
-    <div class="bg-cream border border-fern rounded-xl p-3 shadow-sm">
+<!-- ── SPECIES PANEL ── -->
+<section>
+  <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Species to compare</p>
+  <div class="bg-cream border border-fern rounded-xl p-3 shadow-sm">
 
-      <div id="speciesList" class="flex flex-col gap-1.5"></div>
+    <div id="speciesList" class="flex flex-col gap-1.5"></div>
 
-      <div class="relative mt-2" id="pickerWrapper">
-        <button id="addSpeciesBtn"
-          class="w-full border border-dashed border-fern rounded-lg py-1.5 px-3 text-sm text-sage hover:bg-sage/10 hover:border-sage hover:text-moss transition-all text-left select-none flex items-center gap-1.5">
-          <span class="text-base leading-none">＋</span> Add a species…
-        </button>
+    <div class="relative mt-2" id="pickerWrapper">
+      <button id="addSpeciesBtn"
+        class="w-full border border-dashed border-fern rounded-lg py-1.5 px-3 text-sm text-sage hover:bg-sage/10 hover:border-sage hover:text-moss transition-all text-left select-none flex items-center gap-1.5">
+        <span class="text-base leading-none">＋</span> Add a species…
+      </button>
 
-        <div id="speciesDropdown"
-          class="hidden absolute left-0 right-0 top-full mt-1 bg-cream border border-fern rounded-xl shadow-lg overflow-hidden z-30">
-          <ul id="speciesOptions" class="py-1"></ul>
-        </div>
+      <div id="speciesDropdown"
+        class="hidden absolute left-0 right-0 top-full mt-1 bg-cream border border-fern rounded-xl shadow-lg overflow-hidden z-30">
+        <ul id="speciesOptions" class="py-1"></ul>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ── CHART PANEL ── -->
-  <section>
-    <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Sightings over the year</p>
-    <div class="bg-cream border border-fern rounded-xl p-3 shadow-sm">
-      <div class="flex items-center gap-1.5">
-        <span class="text-[9px] font-medium tracking-widest uppercase text-sage flex-shrink-0"
-              style="writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap">
-          No. of pictures
-        </span>
-        <div class="flex-1 min-w-0 bg-warm rounded-lg p-1.5">
-          <canvas id="trendChart"></canvas>
-        </div>
+<!-- ── CHART PANEL ── -->
+<section>
+  <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Sightings over the year</p>
+  <div class="bg-cream border border-fern rounded-xl p-3 shadow-sm">
+    <div class="flex items-center gap-1.5">
+      <span class="text-[9px] font-medium tracking-widest uppercase text-sage flex-shrink-0"
+        style="writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap">
+        No. of pictures
+      </span>
+      <div class="flex-1 min-w-0 bg-warm rounded-lg p-1.5">
+        <canvas id="trendChart"></canvas>
       </div>
-      <div class="flex justify-between text-[10px] text-sage mt-0.5 pl-5">
-        <span>Jan</span><span>Dec</span>
-      </div>
-      <div id="chartLegend" class="flex flex-wrap gap-3 mt-2 pt-2 border-t border-fern text-sm"></div>
     </div>
-  </section>
+    <div class="flex justify-between text-[10px] text-sage mt-0.5 pl-5">
+      <span>Jan</span><span>Dec</span>
+    </div>
+    <div id="chartLegend" class="flex flex-wrap gap-3 mt-2 pt-2 border-t border-fern text-sm"></div>
+  </div>
+</section>
 
-  <!-- ── GALLERY ── -->
-  <section>
-    <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Photos by month</p>
-    <div id="galleryContainer"></div>
-  </section>
+<!-- ── GALLERY ── -->
+<section>
+  <p class="text-[10px] font-medium tracking-[0.14em] uppercase text-sage mb-1.5">Photos by month</p>
+  <div id="galleryContainer"></div>
+</section>
 {% endblock %}
 
 {% block footer %}
 <!-- ── MODAL ── -->
-<div id="modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8"
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 md:p-8"
   style="background:rgba(44,26,14,0.80);backdrop-filter:blur(6px)">
-  <div class="modal-card relative bg-cream rounded-2xl shadow-2xl overflow-hidden w-full h-full max-w-[80dvw] max-h-[90dvh] flex flex-col">
+  <div
+    class="modal-card relative bg-cream rounded-2xl shadow-2xl overflow-hidden w-full h-full max-w-[80dvw] max-h-[90dvh] flex flex-col">
     <button id="modalClose"
       class="absolute top-2.5 right-2.5 z-10 w-7 h-7 flex items-center justify-center rounded-full text-xs transition-colors"
-      style="background:rgba(44,26,14,0.15)"
-      onmouseover="this.style.background='rgba(44,26,14,0.35)'"
+      style="background:rgba(44,26,14,0.15)" onmouseover="this.style.background='rgba(44,26,14,0.35)'"
       onmouseout="this.style.background='rgba(44,26,14,0.15)'">✕</button>
     <div class="flex-1 min-h-0 overflow-hidden">
       <img id="modalImage" class="w-full h-full object-contain block" alt="Picture" />

@@ -1,4 +1,6 @@
-body { font-family: 'DM Sans', sans-serif; }
+body {
+  font-family: 'DM Sans', sans-serif;
+}
 
 #headerTitle {
   transition: font-size 0.3s ease, line-height 0.3s ease;
@@ -6,10 +8,17 @@ body { font-family: 'DM Sans', sans-serif; }
   font-family: 'Playfair Display', serif;
   font-weight: 700;
 }
+
 #appHeader.scrolled {
   padding-top: 0.4rem;
   padding-bottom: 0.4rem;
-  box-shadow: 0 2px 12px rgba(44,26,14,0.1);
+  box-shadow: 0 2px 12px rgba(44, 26, 14, 0.1);
 }
-#appHeader.scrolled #headerTitle { font-size: clamp(1rem, 4vw, 1.25rem); }
-#appHeader.scrolled .feather      { font-size: 1rem; }
+
+#appHeader.scrolled #headerTitle {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+}
+
+#appHeader.scrolled .feather {
+  font-size: 1rem;
+}

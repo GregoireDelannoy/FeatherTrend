@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FeatherTrend</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-{% block scripts %}{% endblock %}
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/app.css">
-{{ include('inline_tailwind_config.html.twig') }}
-{% block stylesheets %}{% endblock %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FeatherTrend</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  {% block scripts %}{% endblock %}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/css/app.css">
+  {{ include('inline_tailwind_config.html.twig') }}
+  {% block stylesheets %}{% endblock %}
 </head>
+
 <body class="bg-warm min-h-screen text-bark pb-10">
 
-<header id="appHeader" class="sticky top-0 z-20 bg-cream border-b-2 border-fern px-4 py-3 flex items-center justify-between">
-  <div class="flex items-center gap-2">
-    <span id="headerTitle">Feather<span class="text-sage">Trend</span></span>
-    <span class="feather">🪶</span>
-  </div>
-  
-  <div class="flex items-center gap-3 text-sm">
-    {% if app.user %}
+  <header id="appHeader"
+    class="sticky top-0 z-20 bg-cream border-b-2 border-fern px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span id="headerTitle">Feather<span class="text-sage">Trend</span></span>
+      <span class="feather">🪶</span>
+    </div>
+
+    <div class="flex items-center gap-3 text-sm">
+      {% if app.user %}
       <span class="text-moss">{{ app.user.email }}</span>
-      <a href="{{ path('app_logout') }}" class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
+      <a href="{{ path('app_logout') }}"
+        class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
         Logout
       </a>
-    {% else %}
-      <a href="{{ path('app_login') }}" class="px-3 py-1.5 border border-sage text-sage rounded-lg hover:bg-sage hover:text-cream transition-colors font-medium">
+      {% else %}
+      <a href="{{ path('app_login') }}"
+        class="px-3 py-1.5 border border-sage text-sage rounded-lg hover:bg-sage hover:text-cream transition-colors font-medium">
         Login
       </a>
-      <a href="{{ path('app_register') }}" class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
+      <a href="{{ path('app_register') }}"
+        class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
         Register
       </a>
-    {% endif %}
-  </div>
-</header>
+      {% endif %}
+    </div>
+  </header>
 
-<main class="max-w-xl mx-auto px-3 pt-4 flex flex-col gap-5">
-  {% block main %}{% endblock %}
-</main>
+  <main class="max-w-xl mx-auto px-3 pt-4 flex flex-col gap-5">
+    {% block main %}{% endblock %}
+  </main>
 
-{% block footer %}{% endblock %}
+  {% block footer %}{% endblock %}
 </body>
+
 </html>

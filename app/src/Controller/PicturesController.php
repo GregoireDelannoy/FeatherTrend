@@ -1,22 +1,24 @@
 <?php
+
 namespace App\Controller;
 
+use App\Entity\Pictures;
+use Doctrine\ORM\EntityManagerInterface;
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\ORM\EntityManagerInterface;
-use Imagine\Gd\Imagine;
-use Imagine\Image\Box;
-
-use App\Entity\Pictures;
 
 class PicturesController extends AbstractController
 {
     private const THUMBNAIL_SIZE = 200;
+
     private function getThumbnailPath(int $id, string $originalPath): string
     {
         $pathInfo = pathinfo($originalPath);
+
         return sprintf(
             '%s/feathertrend_thumbnails/%d_%s.%s',
             sys_get_temp_dir(),
@@ -55,20 +57,20 @@ class PicturesController extends AbstractController
 
         $picturePath = $picture->getPath();
         $thumbnailPath = $this->getThumbnailPath($id, $picturePath);
-        $thumbnailDirname = pathinfo($thumbnailPath)["dirname"];
+        $thumbnailDirname = pathinfo($thumbnailPath)['dirname'];
 
         if (!file_exists($picturePath)) {
             return new Response('File not found', Response::HTTP_NOT_FOUND);
         }
 
-        if (!file_exists($thumbnailDirname)){
+        if (!file_exists($thumbnailDirname)) {
             mkdir($thumbnailDirname);
         }
 
         if (!file_exists($thumbnailPath)) {
             $imagine = new Imagine();
             list($width, $height) = getimagesize($picturePath);
-            $ratio = $width/$height;
+            $ratio = $width / $height;
             if ($width > $height) {
                 $thumbnailWidth = self::THUMBNAIL_SIZE;
                 $thumbnailHeight = floor(self::THUMBNAIL_SIZE / $ratio);

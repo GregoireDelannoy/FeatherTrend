@@ -48,7 +48,7 @@ class Pictures
 
     public function getPath(): ?string
     {
-        return dirname(__DIR__)."/../assets/pictures/".$this->path;
+        return dirname(__DIR__).'/../assets/pictures/'.$this->path;
     }
 
     public function setPath(string $path): static

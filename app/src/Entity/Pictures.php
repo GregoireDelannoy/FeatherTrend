@@ -20,7 +20,7 @@ class Pictures
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'pictures')]
-    private ?Species $specie = null;
+    private ?Species $species = null;
 
     public function getId(): ?int
     {
@@ -58,14 +58,14 @@ class Pictures
         return $this;
     }
 
-    public function getSpecie(): ?Species
+    public function getSpecies(): ?Species
     {
-        return $this->specie;
+        return $this->species;
     }
 
-    public function setSpecie(?Species $specie): static
+    public function setSpecies(?Species $species): static
     {
-        $this->specie = $specie;
+        $this->species = $species;
 
         return $this;
     }

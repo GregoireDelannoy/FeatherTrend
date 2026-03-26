@@ -25,7 +25,7 @@ class Species
     /**
      * @var Collection<int, Pictures>
      */
-    #[ORM\OneToMany(targetEntity: Pictures::class, mappedBy: 'specie')]
+    #[ORM\OneToMany(targetEntity: Pictures::class, mappedBy: 'species')]
     private Collection $pictures;
 
     public function __construct()

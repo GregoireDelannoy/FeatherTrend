@@ -27,7 +27,7 @@
 
     <div class="flex items-center gap-3 text-sm">
       {% if app.user %}
-      <span class="text-moss">{{ app.user.email }}</span>
+      <span class="text-moss" data-tests="logged_in_user_email">{{ app.user.email }}</span>
       <a href="{{ path('app_logout') }}"
         class="px-3 py-1.5 bg-sage text-cream rounded-lg hover:bg-moss transition-colors font-medium">
         Logout

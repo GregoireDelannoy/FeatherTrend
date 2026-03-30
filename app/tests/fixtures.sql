@@ -1,3 +1,5 @@
+\connect feathertrend_test
+
 INSERT INTO species (id, scientific_name, common_name) VALUES (1, 'Alcedo atthis', 'Common Kingfisher');
 INSERT INTO pictures (species_id, datetime, path) VALUES (1, '2016-01-01T12:00:00', 'kingfisher.jpg');
 INSERT INTO pictures (species_id, datetime, path) VALUES (1, '2019-01-05T12:00:00', 'kingfisher.jpg');

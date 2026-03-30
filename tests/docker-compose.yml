@@ -1,0 +1,42 @@
+services:
+  test-db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: rootpassword
+    # Mount schema creation + fixtures files to be automatically executed
+    volumes:
+      - ../app/migrations/create_db_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ../app/tests/fixtures.sql:/docker-entrypoint-initdb.d/02_fixtures.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "feathertrend_test", "-d", "feathertrend_test"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  test-php:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    depends_on:
+      test-db:
+        condition: service_healthy
+    # Mount app directories as read-only volumes. Exclude all cache, or downloaded libs
+    volumes:
+      - ../app/assets:/app/assets:ro
+      - ../app/config:/app/config:ro
+      - ../app/ml_models:/app/ml_models:ro
+      - ../app/public:/app/public:ro
+      - ../app/src:/app/src:ro
+      - ../app/templates:/app/templates:ro
+      - ../app/tests:/app/tests:ro
+      - ../app/composer.json:/app/composer.json:ro
+      - ../app/composer.lock:/app/composer.lock:ro
+      - ../app/symfony.lock:/app/symfony.lock:ro
+      - ../app/phpunit.dist.xml:/app/phpunit.dist.xml:ro
+      - ../app/bin:/app/bin:ro
+      - ../app/.env:/app/.env:ro
+    environment:
+      KERNEL_CLASS: App\Kernel
+      DATABASE_URL: "postgresql://feathertrend_test:password@test-db:5432/feathertrend?serverVersion=16&charset=utf8"
+    command: >
+      /bin/bash -c "composer install && php bin/phpunit"

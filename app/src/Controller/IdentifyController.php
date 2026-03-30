@@ -6,6 +6,7 @@ use App\Form\IdentifyPictureFormType;
 use App\Service\ImageService;
 use Imagine\Gd\Imagine;
 use OnnxRuntime\Model;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,10 +46,16 @@ class IdentifyController extends AbstractController
 {
     #[Route(path: '/identify', name: 'app_identify')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function identify(Request $request, ImageService $imageService): Response
+    public function identify(Request $request, ImageService $imageService, LoggerInterface $logger): Response
     {
         $form = $this->createForm(IdentifyPictureFormType::class);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && !$form->isValid()){
+            foreach ($form->getErrors(true) as $error) {
+                $logger->error('/identify Form validation error: ' . $error->getMessage());
+            }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $pictureData = $form->get('picture')->getData();

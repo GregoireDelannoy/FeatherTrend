@@ -21,6 +21,14 @@ Requirements:
 
 Then, install the dependencies with `composer install` and run a local server `symfony server:start`.
 
+
+### Testing
+To run the test suite, fire up `php bin/phpunit` from within the `app` directory.
+
+The full suite also run in Docker: `docker compose -f tests/docker-compose.yml run --rm test-php`
+
+See the results from the Github Action: [![Integration Tests](https://github.com/GregoireDelannoy/FeatherTrend/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/GregoireDelannoy/FeatherTrend/actions/workflows/tests.yml)
+
 ## Ingesting data
 FeatherTrend expects data in two SQL tables:
 1. `species`: `id|scientific_name|common_name`

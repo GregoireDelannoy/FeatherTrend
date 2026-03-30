@@ -20,8 +20,8 @@ services:
     depends_on:
       test-db:
         condition: service_healthy
-    # Mount app directories as read-only volumes. Exclude all cache, or downloaded libs
     volumes:
+      # Mount app directories as read-only volumes. Exclude all cache, or downloaded libs
       - ../app/assets:/app/assets:ro
       - ../app/config:/app/config:ro
       - ../app/ml_models:/app/ml_models:ro
@@ -35,6 +35,9 @@ services:
       - ../app/phpunit.dist.xml:/app/phpunit.dist.xml:ro
       - ../app/bin:/app/bin:ro
       - ../app/.env:/app/.env:ro
+      # RW for Junit test results
+      - ./results:/app/test-results
+
     environment:
       KERNEL_CLASS: App\Kernel
       DATABASE_URL: "postgresql://feathertrend_test:password@test-db:5432/feathertrend?serverVersion=16&charset=utf8"

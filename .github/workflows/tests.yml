@@ -1,0 +1,30 @@
+name: Integration Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Create output directory
+        run: mkdir -p tests/results
+
+      - name: Run tests via Docker Compose
+        run: docker compose -f tests/docker-compose.yml run --rm test-php
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: tests/results/junit.xml

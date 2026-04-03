@@ -27,6 +27,7 @@ services:
         arguments:
             $modelPath: '%kernel.project_dir%/ml_models/yolo26m.onnx'
             $modelInputSize: 640
+            $metadataPath: ''
 
     App\Service\ClassificationModel:
         arguments:

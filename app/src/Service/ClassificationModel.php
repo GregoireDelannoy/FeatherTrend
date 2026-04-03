@@ -7,24 +7,13 @@ use Imagine\Image\ImageInterface;
 
 class ClassificationModel extends AbstractMLModel
 {
-    private string $metadataPath;
-
-    public function __construct(
-        string $modelPath,
-        int $modelInputSize,
-        string $metadataPath,
-    ) {
-        parent::__construct($modelPath, $modelInputSize);
-        $this->metadataPath = $metadataPath;
-    }
-
     public function run(ImageInterface $image): ClassificationResult
     {
         $modelMetadata = json_decode(file_get_contents($this->metadataPath), true);
 
         $boxed = $this->letterboxImage($image);
         $preprocessed = $this->preprocess($boxed);
-        $results = $this->getModel()->predict(['x' => $preprocessed]);
+        $results = $this->model->predict(['x' => $preprocessed]);
         unset($this->model);
         $probabilities = $results['output'][0];
 

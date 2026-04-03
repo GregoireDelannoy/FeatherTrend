@@ -12,6 +12,13 @@ use PHPUnit\Framework\TestCase;
 
 class TestableMLModel extends AbstractMLModel
 {
+    public function __construct(
+        protected string $modelPath,
+        protected string $metadataPath,
+        protected int $modelInputSize,
+    ) {
+    }
+
     // Expose protected methods for testing
     public function testLetterboxImage(ImageInterface $image): ImageInterface
     {
@@ -38,7 +45,7 @@ class AbstractMLModelServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->model = new TestableMLModel('', 40);
+        $this->model = new TestableMLModel('', '', 40);
         $this->imagine = new Imagine();
         $this->rgb = new RGB();
     }

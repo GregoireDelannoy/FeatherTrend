@@ -9,19 +9,12 @@ class DetectionModel extends AbstractMLModel
     public const CLASS_BIRD = 14;
     private float $confidenceThreshold = 0.25;
 
-    public function setConfidenceThreshold(float $threshold): self
-    {
-        $this->confidenceThreshold = $threshold;
-
-        return $this;
-    }
-
     public function run(ImageInterface $image): ?array
     {
         $letterboxed = $this->letterboxImage($image);
         $preprocessed = $this->preprocess($letterboxed);
 
-        $results = $this->getModel()->predict(['images' => $preprocessed]);
+        $results = $this->model->predict(['images' => $preprocessed]);
         $detections = $results['output0'][0];
         unset($this->model);
 

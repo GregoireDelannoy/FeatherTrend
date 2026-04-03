@@ -15,17 +15,10 @@ abstract class AbstractMLModel
 
     public function __construct(
         protected string $modelPath,
+        protected string $metadataPath,
         protected int $modelInputSize,
     ) {
-    }
-
-    protected function getModel(): Model
-    {
-        if (!isset($this->model)) {
-            $this->model = new Model($this->modelPath);
-        }
-
-        return $this->model;
+        $this->model = new Model($this->modelPath);
     }
 
     protected function letterboxImage(ImageInterface $image): ImageInterface
@@ -46,33 +39,37 @@ abstract class AbstractMLModel
         $newImage = $imagine->create(new Box($this->modelInputSize, $this->modelInputSize), $palette->color([128, 128, 128]));
 
         $newImage->paste($resized, new Point((int) (($this->modelInputSize - $nw) / 2), (int) (($this->modelInputSize - $nh) / 2)));
+        unset($resized);
 
         return $newImage;
     }
 
     protected function preprocess(ImageInterface $boxed): array
     {
-        $width = $boxed->getSize()->getWidth();
-        $height = $boxed->getSize()->getHeight();
+        if (!$boxed instanceof \Imagine\Gd\Image) {
+            throw new \RuntimeException('GD driver expected for preprocessing.');
+        }
+        $gdImage = $boxed->getGdResource();
 
-        $channels = [[], [], []]; // R, G, B
+        $width = imagesx($gdImage);
+        $height = imagesy($gdImage);
+
+        $r = $g = $b = [];
 
         for ($x = 0; $x < $height; ++$x) {
-            // Add an column array for each passing line
-            $channels[0][] = [];
-            $channels[1][] = [];
-            $channels[2][] = [];
+            $rRow = $gRow = $bRow = [];
             for ($y = 0; $y < $width; ++$y) {
-                $color = $boxed->getColorAt(new Point($y, $x));
-                $channels[0][$x][] = $color->getValue(\Imagine\Image\Palette\Color\RGB::COLOR_RED) / 255.0;
-                $channels[1][$x][] = $color->getValue(\Imagine\Image\Palette\Color\RGB::COLOR_GREEN) / 255.0;
-                $channels[2][$x][] = $color->getValue(\Imagine\Image\Palette\Color\RGB::COLOR_BLUE) / 255.0;
+                $rgb = imagecolorat($gdImage, $y, $x);
+                $rRow[] = (($rgb >> 16) & 0xFF) / 255.0;
+                $gRow[] = (($rgb >> 8) & 0xFF) / 255.0;
+                $bRow[] = ($rgb & 0xFF) / 255.0;
             }
+            $r[] = $rRow;
+            $g[] = $gRow;
+            $b[] = $bRow;
         }
 
-        return [
-            $channels,
-        ];
+        return [[$r, $g, $b]];
     }
 
     abstract public function run(ImageInterface $image);

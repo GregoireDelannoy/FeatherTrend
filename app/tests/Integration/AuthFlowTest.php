@@ -15,7 +15,7 @@ class AuthFlowTest extends WebTestCase
     {
         $this->assertEmpty(
             $client->getCookieJar()->get('MOCKSESSID'),
-            'No session cookie before registering'
+            'No session cookie when not logged in'
         );
         $this->assertStringNotContainsString(self::TEST_EMAIL, $client->getResponse()->getContent(),
             'Not logged in yet, user email should not be in the page'
@@ -71,9 +71,7 @@ class AuthFlowTest extends WebTestCase
         $this->assertResponseRedirects();
         $client->followRedirect();
 
-        $this->assertStringNotContainsString(self::TEST_EMAIL, $client->getResponse()->getContent(),
-            'Logged out, user email should not be in the page anymore'
-        );
+        $this->assertNotLoggedIn($client);
     }
 
     public function testLoginThenLogout(): void
@@ -102,8 +100,6 @@ class AuthFlowTest extends WebTestCase
         $this->assertResponseRedirects();
         $client->followRedirect();
 
-        $this->assertStringNotContainsString(self::TEST_EMAIL, $client->getResponse()->getContent(),
-            'Logged out, user email should not be in the page anymore'
-        );
+        $this->assertNotLoggedIn($client);
     }
 }

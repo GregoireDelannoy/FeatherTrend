@@ -1,0 +1,6 @@
+framework:
+    rate_limiter:
+        registration:
+            policy: 'fixed_window'
+            limit: 1
+            interval: '1 second'

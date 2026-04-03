@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Form\IdentifyPictureFormType;
-use App\Service\ImageService;
+use App\Service\ImageIdentificationService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ class IdentifyController extends AbstractController
 {
     #[Route(path: '/identify', name: 'app_identify')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function identify(Request $request, ImageService $imageService, LoggerInterface $logger): Response
+    public function identify(Request $request, ImageIdentificationService $identificationService, LoggerInterface $logger): Response
     {
         $form = $this->createForm(IdentifyPictureFormType::class);
         $form->handleRequest($request);
@@ -29,7 +29,7 @@ class IdentifyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pictureData = $form->get('picture')->getData();
 
-            $identification = $imageService::identifyPicture($pictureData->getRealPath(), $imageService, $logger);
+            $identification = $identificationService->identify($pictureData->getRealPath());
 
             return $this->render('identify_result.html.twig', $identification);
         }

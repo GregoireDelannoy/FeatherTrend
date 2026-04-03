@@ -23,3 +23,18 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Service\DetectionModel:
+        arguments:
+            $modelPath: '%kernel.project_dir%/ml_models/yolo26m.onnx'
+            $modelInputSize: 640
+
+    App\Service\ClassificationModel:
+        arguments:
+            $modelPath: '%kernel.project_dir%/ml_models/regnet_z_4g_eu-common.onnx'
+            $modelInputSize: 384
+            $metadataPath: '%kernel.project_dir%/ml_models/regnet_z_4g_eu-common.onnx_metadata.json'
+
+    App\Service\ImageIdentificationService:
+        arguments:
+            $detectionModel: '@App\Service\DetectionModel'
+            $classificationModel: '@App\Service\ClassificationModel'

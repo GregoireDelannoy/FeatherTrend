@@ -2,26 +2,43 @@
 
 namespace App\Tests\Unit;
 
-use App\Service\ImageService;
+use App\Service\AbstractMLModel;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
 use Imagine\Image\Palette\RGB;
 use Imagine\Image\Point;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class ImageServiceTest extends KernelTestCase
+class TestableMLModel extends AbstractMLModel
 {
-    private ImageService $service;
+    // Expose protected methods for testing
+    public function testLetterboxImage(ImageInterface $image): ImageInterface
+    {
+        return $this->letterboxImage($image);
+    }
+
+    public function testPreprocess(ImageInterface $image): array
+    {
+        return $this->preprocess($image);
+    }
+
+    public function run(ImageInterface $image)
+    {
+        return null;
+    }
+}
+
+class AbstractMLModelServiceTest extends TestCase
+{
+    private TestableMLModel $model;
     private Imagine $imagine;
     private RGB $rgb;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
-        self::bootKernel();
-        $container = static::getContainer();
-
-        $this->service = $container->get(ImageService::class);
+        $this->model = new TestableMLModel('', 40);
         $this->imagine = new Imagine();
         $this->rgb = new RGB();
     }
@@ -29,7 +46,7 @@ class ImageServiceTest extends KernelTestCase
     public function testLetterboxHorizontalRedImage(): void
     {
         $image = $this->imagine->create(new Box(1000, 500), $this->rgb->color([255, 0, 0]));
-        $letterbox = $this->service->letterboxImage($image, 40);
+        $letterbox = $this->model->testLetterboxImage($image);
 
         $this->assertEquals($letterbox->getSize(), new Box(40, 40), 'Letterbox img is 40x40px');
         $this->assertEquals($letterbox->getColorAt(new Point(20, 20)), $this->rgb->color([255, 0, 0]), 'Letterbox img center is red');
@@ -40,7 +57,7 @@ class ImageServiceTest extends KernelTestCase
     public function testLetterboxVerticalRedImage(): void
     {
         $image = $this->imagine->create(new Box(500, 1000), $this->rgb->color([255, 0, 0]));
-        $letterbox = $this->service->letterboxImage($image, 40);
+        $letterbox = $this->model->testLetterboxImage($image);
 
         $this->assertEquals($letterbox->getSize(), new Box(40, 40), 'Letterbox img is 40x40px');
         $this->assertEquals($letterbox->getColorAt(new Point(20, 20)), $this->rgb->color([255, 0, 0]), 'Letterbox img center is red');
@@ -60,7 +77,7 @@ class ImageServiceTest extends KernelTestCase
         $image->paste($blue, new Point(0, 1));
         $image->paste($black, new Point(1, 1));
 
-        $array = $this->service->preprocess($image);
+        $array = $this->model->testPreprocess($image);
 
         // We expect an array of one image with each RGB channel describing a matrix of the image size.
         // Channel values should be normalized from [0-255] to [0-1]

@@ -8,17 +8,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class BirdIdentificationTest extends WebTestCase
 {
-    private const TEST_SPECIES = "Common kingfisher";
+    private const TEST_SPECIES = 'Common kingfisher';
 
     public function testIdentifyNotAvailablePublicly(): void
     {
         $client = static::createClient();
 
         $client->request('GET', '/identify');
-        $this->assertResponseRedirects("/login");
+        $this->assertResponseRedirects('/login');
 
         $client->request('POST', '/identify');
-        $this->assertResponseRedirects("/login");
+        $this->assertResponseRedirects('/login');
     }
 
     public function testKingfisherImageIsLabelledAsKingfisher(): void
@@ -44,7 +44,7 @@ class BirdIdentificationTest extends WebTestCase
             parameters: [
                 'identify_picture_form' => [
                     '_token' => $csrfToken,
-                ]
+                ],
             ],
             files: ['identify_picture_form' => ['picture' => $uploadedFile]],
         );
@@ -56,4 +56,3 @@ class BirdIdentificationTest extends WebTestCase
         );
     }
 }
-

@@ -3,11 +3,11 @@
 namespace App\Tests\Unit;
 
 use App\Service\ImageService;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Palette\RGB;
 use Imagine\Image\Point;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ImageServiceTest extends KernelTestCase
 {
@@ -31,10 +31,10 @@ class ImageServiceTest extends KernelTestCase
         $image = $this->imagine->create(new Box(1000, 500), $this->rgb->color([255, 0, 0]));
         $letterbox = $this->service->letterboxImage($image, 40);
 
-        $this->assertEquals($letterbox->getSize(), new Box(40, 40), "Letterbox img is 40x40px");
-        $this->assertEquals($letterbox->getColorAt(new Point(20, 20)), $this->rgb->color([255, 0, 0]), "Letterbox img center is red");
-        $this->assertEquals($letterbox->getColorAt(new Point(0, 20)), $this->rgb->color([255, 0, 0]), "Letterbox img center left is red");
-        $this->assertEquals($letterbox->getColorAt(new Point(20, 0)), $this->rgb->color([128, 128, 128]), "Letterbox img center top is grey");
+        $this->assertEquals($letterbox->getSize(), new Box(40, 40), 'Letterbox img is 40x40px');
+        $this->assertEquals($letterbox->getColorAt(new Point(20, 20)), $this->rgb->color([255, 0, 0]), 'Letterbox img center is red');
+        $this->assertEquals($letterbox->getColorAt(new Point(0, 20)), $this->rgb->color([255, 0, 0]), 'Letterbox img center left is red');
+        $this->assertEquals($letterbox->getColorAt(new Point(20, 0)), $this->rgb->color([128, 128, 128]), 'Letterbox img center top is grey');
     }
 
     public function testLetterboxVerticalRedImage(): void
@@ -42,10 +42,10 @@ class ImageServiceTest extends KernelTestCase
         $image = $this->imagine->create(new Box(500, 1000), $this->rgb->color([255, 0, 0]));
         $letterbox = $this->service->letterboxImage($image, 40);
 
-        $this->assertEquals($letterbox->getSize(), new Box(40, 40), "Letterbox img is 40x40px");
-        $this->assertEquals($letterbox->getColorAt(new Point(20, 20)), $this->rgb->color([255, 0, 0]), "Letterbox img center is red");
-        $this->assertEquals($letterbox->getColorAt(new Point(0, 20)), $this->rgb->color([128, 128, 128]), "Letterbox img center left is grey");
-        $this->assertEquals($letterbox->getColorAt(new Point(20, 0)), $this->rgb->color([255, 0, 0]), "Letterbox img center top is red");
+        $this->assertEquals($letterbox->getSize(), new Box(40, 40), 'Letterbox img is 40x40px');
+        $this->assertEquals($letterbox->getColorAt(new Point(20, 20)), $this->rgb->color([255, 0, 0]), 'Letterbox img center is red');
+        $this->assertEquals($letterbox->getColorAt(new Point(0, 20)), $this->rgb->color([128, 128, 128]), 'Letterbox img center left is grey');
+        $this->assertEquals($letterbox->getColorAt(new Point(20, 0)), $this->rgb->color([255, 0, 0]), 'Letterbox img center top is red');
     }
 
     public function testPreprocessImage(): void

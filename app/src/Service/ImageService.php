@@ -4,9 +4,9 @@ namespace App\Service;
 
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
 use Imagine\Image\Palette\RGB;
 use Imagine\Image\Point;
-use Imagine\Image\ImageInterface;
 
 class ImageService
 {

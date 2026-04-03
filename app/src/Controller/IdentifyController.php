@@ -17,8 +17,6 @@ define('MODEL_PATH', dirname(__DIR__).'/../ml_models/regnet_z_4g_eu-common.onnx'
 define('MODEL_METADATA', dirname(__DIR__).'/../ml_models/regnet_z_4g_eu-common.onnx_metadata.json');
 define('MODEL_INPUT_SIZE', 384);
 
-
-
 function identifyPicture(string $picturePath, ImageService $imageService)
 {
     $model = new Model(MODEL_PATH);
@@ -51,9 +49,9 @@ class IdentifyController extends AbstractController
         $form = $this->createForm(IdentifyPictureFormType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && !$form->isValid()){
+        if ($form->isSubmitted() && !$form->isValid()) {
             foreach ($form->getErrors(true) as $error) {
-                $logger->error('/identify Form validation error: ' . $error->getMessage());
+                $logger->error('/identify Form validation error: '.$error->getMessage());
             }
         }
 

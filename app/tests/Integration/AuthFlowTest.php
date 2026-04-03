@@ -2,10 +2,9 @@
 
 namespace App\Tests\Integration;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-
 use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AuthFlowTest extends WebTestCase
 {

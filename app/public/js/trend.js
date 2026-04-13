@@ -103,10 +103,6 @@ function renderSpecies() {
   const list = document.getElementById('speciesList');
   list.innerHTML = '';
 
-  if (!species.length) {
-    list.innerHTML = `<p class="text-xs text-sage/60 py-1 px-1">No species selected yet.</p>`;
-  }
-
   species.forEach(sp => {
     const row = document.createElement('div');
     row.className = 'species-row flex items-center gap-2 bg-warm border border-fern/60 rounded-lg px-3 py-2';
@@ -357,8 +353,18 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 /* ── Boot ──────────────────────────────────────────────────────────────── */
+function toggleDescriptionCTA() {
+  const cta = document.getElementById('descriptionCTA');
+  if (species.length > 0) {
+    cta.classList.add('hidden');
+  } else {
+    cta.classList.remove('hidden');
+  }
+}
+
 function renderAll() {
   renderSpecies();
+  toggleDescriptionCTA();
   renderChart();
   renderGallery();
 }
